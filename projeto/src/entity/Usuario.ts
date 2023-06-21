@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import { Caixa } from "./Caixa";
+
 @Entity()
 export class Usuario{
     constructor(email: string, senha: string, cargo: boolean){

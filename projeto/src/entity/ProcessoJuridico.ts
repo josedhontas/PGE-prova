@@ -3,9 +3,10 @@ import { Caixa } from "./Caixa";
 
 @Entity()
 export class ProcessoJuridico{
-    constructor(numero: number, descricao: string){
+    constructor(numero: number, descricao: string, caixa: Caixa){
         this.numero = numero;
         this.descricao = descricao;
+        this.caixa = caixa
     }
 
     @PrimaryGeneratedColumn()

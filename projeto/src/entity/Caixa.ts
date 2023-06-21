@@ -2,9 +2,11 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from "t
 import { Usuario } from "./Usuario";
 import { ProcessoJuridico } from "./ProcessoJuridico";
 
+@Entity() 
 export class Caixa{
-    constructor(nome: string){
+    constructor(nome: string, usuario: Usuario){
         this.nome = nome;
+        this.usuario = usuario
     }
 
     @PrimaryGeneratedColumn()
@@ -18,5 +20,4 @@ export class Caixa{
 
     @OneToMany(() => ProcessoJuridico, (processojuridico) => processojuridico.caixa)
     processosjuridicos: ProcessoJuridico[]
-    
 }
