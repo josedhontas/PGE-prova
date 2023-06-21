@@ -1,23 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from "typeorm";
 import { Usuario } from "./Usuario";
 import { ProcessoJuridico } from "./ProcessoJuridico";
 
-@Entity() 
-export class Caixa{
-    constructor(nome: string, usuario: Usuario){
-        this.nome = nome;
-        this.usuario = usuario
-    }
+@Entity()
+export class Caixa {
+  constructor(nome: string, usuario: Usuario) {
+    this.nome = nome;
+    this.usuario = usuario;
+  }
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    nome: string;
+  @Column()
+  nome: string;
 
-    @ManyToMany(() => Usuario)
-    usuario: Usuario;
+  @ManyToOne(() => Usuario)
+  usuario: Usuario;
 
-    @OneToMany(() => ProcessoJuridico, (processojuridico) => processojuridico.caixa)
-    processosjuridicos: ProcessoJuridico[]
+  @ManyToMany(() => ProcessoJuridico)
+  @JoinTable()
+  processosjuridicos: ProcessoJuridico[];
 }
