@@ -19,3 +19,10 @@ routerUsuario.post('/', async (req, res) =>{
     const caixaArquivada = await caixaCtrl.criarCaixa(new Caixa("Arquivada", usuario))
     res.json(usuarioSalvo);
 })
+
+
+routerUsuario.get('/:id', async(req, res) => {
+    const {id} = req.body;
+    const usuarioCaixas = await usuarioCtrl.listarCaixas(id);
+    res.json(usuarioCaixas)
+}) 

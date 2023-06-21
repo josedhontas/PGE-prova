@@ -35,6 +35,14 @@ class UsuarioController {
     const usuarioRemovido = await getManager().remove(usuario);
     return usuarioRemovido;
   }
+
+  async listarCaixas(usuarioId: number) {
+    const usuario = await getManager().findOne(Usuario, usuarioId, { relations: ["caixas"] });
+    if (!usuario) {
+      throw new Error(`Usuario com o ID ${usuarioId} não encontrada.`);
+    }
+    return usuario.caixas;
+  }
 }
 
 export default UsuarioController;
