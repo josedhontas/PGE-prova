@@ -6,7 +6,7 @@ const caixaCtrl = new CaixaController();
 
 routerCaixa.get('/:id', async(req, res) => {
     const {id} = req.body;
-    const caixaProcessos = await caixaCtrl.listarProcessosJuridicosId(id);
+    const caixaProcessos = await caixaCtrl.listarProcessosJuridicosPorCaixaId(id);
     res.json(caixaProcessos)
 }) 
 

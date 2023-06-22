@@ -7,6 +7,7 @@ export class Caixa {
   constructor(nome: string, usuario: Usuario) {
     this.nome = nome;
     this.usuario = usuario;
+    
   }
 
   @PrimaryGeneratedColumn()

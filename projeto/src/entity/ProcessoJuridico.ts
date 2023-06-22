@@ -1,23 +1,29 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from "typeorm";
 import { Caixa } from "./Caixa";
 
 @Entity()
-export class ProcessoJuridico{
-    constructor(numero: number, descricao: string, caixa: Caixa){
-        this.numero = numero;
-        this.descricao = descricao;
-        this.caixa = caixa
-    }
+export class ProcessoJuridico {
+  constructor(numero: number, descricao: string, caixas: Caixa[]) {
+    this.numero = numero;
+    this.descricao = descricao;
+    this.caixas = caixas;
+  }
 
-    @PrimaryGeneratedColumn()
-    id: number;
+  adicionarCaixa(caixa: Caixa) {
+    this.caixas.push(caixa);
+    caixa.processosjuridicos.push(this);
+  }
 
-    @Column()
-    numero: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    descricao: string;
+  @Column()
+  numero: number;
 
-    @ManyToOne(()=> Caixa)
-    caixa : Caixa;
+  @Column()
+  descricao: string;
+
+  @ManyToMany(() => Caixa)
+  @JoinTable()
+  caixas: Caixa[];
 }

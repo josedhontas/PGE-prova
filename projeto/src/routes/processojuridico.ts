@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { ProcessoJuridico } from "../entity/ProcessoJuridico";
+import CaixaController from "../controller/CaixaController";
 import ProcessoJuridicoController from "../controller/ProcessoJuridicoController";
 
 export const routerProcessoJuridico = Router();
 const processoJuridicoCtrl = new ProcessoJuridicoController();
+const caixaCtrl = new CaixaController();
 
 routerProcessoJuridico.get('/', async (req, res) => {
   const processosJuridicos = await processoJuridicoCtrl.listarProcessosJuridicos();
@@ -20,16 +22,25 @@ routerProcessoJuridico.get('/:id', async (req, res) => {
 
   res.json(processoJuridico);
 });
-
 routerProcessoJuridico.post('/', async (req, res) => {
   const { numero, descricao, caixaId } = req.body;
 
-  // Crie uma instância de ProcessoJuridico com os dados recebidos
-  const novoProcessoJuridico = new ProcessoJuridico(numero, descricao, caixaId);
+  try {
+    const caixa = await caixaCtrl.obterCaixaPorId(caixaId);
+    
+    if (!caixa) {
+      return res.status(404).json({ error: `Caixa com o ID ${caixaId} não encontrada.` });
+    }
 
-  const processoJuridicoSalvo = await processoJuridicoCtrl.criarProcessoJuridico(novoProcessoJuridico);
-  res.json(processoJuridicoSalvo);
+    const novoProcessoJuridico = new ProcessoJuridico(numero, descricao, [caixa]);
+
+    const processoJuridicoSalvo = await processoJuridicoCtrl.criarProcessoJuridico(novoProcessoJuridico);
+    res.json(processoJuridicoSalvo);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
+
 
 routerProcessoJuridico.put('/:id', async (req, res) => {
   const { id } = req.params;

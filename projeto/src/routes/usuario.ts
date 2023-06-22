@@ -24,5 +24,6 @@ routerUsuario.post('/', async (req, res) =>{
 routerUsuario.get('/:id', async(req, res) => {
     const {id} = req.body;
     const usuarioCaixas = await usuarioCtrl.listarCaixas(id);
+    console.log(usuarioCaixas)
     res.json(usuarioCaixas)
 }) 

@@ -6,6 +6,7 @@ import * as logger from 'morgan';
 import { conectarServidorNoBD } from './config/db';
 import { routerUsuario } from './routes/usuario';
 import { routerCaixa } from './routes/caixa';
+import { routerProcessoJuridico } from './routes/processojuridico';
 
 
 export const app = express();
@@ -20,5 +21,6 @@ conectarServidorNoBD();
 
 app.use('/usuario', routerUsuario)
 app.use('/caixa', routerCaixa)
+app.use('/juridico', routerProcessoJuridico)
 
 

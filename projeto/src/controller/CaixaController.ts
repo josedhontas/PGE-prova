@@ -17,14 +17,13 @@ class CaixaController {
     return caixa;
   }
 
-  async listarProcessosJuridicosId(caixaId: number) {
+  async listarProcessosJuridicosPorCaixaId(caixaId: number) {
     const caixa = await getManager().findOne(Caixa, caixaId, { relations: ["processosjuridicos"] });
     if (!caixa) {
       throw new Error(`Caixa com o ID ${caixaId} não encontrada.`);
     }
     return caixa.processosjuridicos;
   }
-  
 }
 
 export default CaixaController;
