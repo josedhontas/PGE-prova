@@ -9,6 +9,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 //import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -50,6 +51,7 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function Login(props) {
+  const navigate = useNavigate();
   const { onClose } = props;
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -63,6 +65,7 @@ export default function Login(props) {
   const handleSaveChanges = () => {
     console.log(email);
     console.log(password);
+
     // Lógica para salvar as alterações do login
 
     // Fechar o diálogo de login
