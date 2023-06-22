@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Grid, Box } from '@mui/material';
 import Navbar from '../Components/Navbar';
-import { useNavigate } from 'react-router-dom';
 import inicio from '../img/inicio.png'
 
 export default function Home() {
