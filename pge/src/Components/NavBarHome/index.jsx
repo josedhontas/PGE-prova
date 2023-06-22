@@ -20,6 +20,7 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+import Saida from '../saida';
 
 const drawerWidth = 240;
 
@@ -87,7 +88,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-export default function MiniDrawer() {
+export default function NavBarHome(props) {
     const menu = [
         {
             text: 'Entrada',
@@ -198,6 +199,7 @@ export default function MiniDrawer() {
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />
+                <Saida></Saida>
             </Box>
         </Box>
     );

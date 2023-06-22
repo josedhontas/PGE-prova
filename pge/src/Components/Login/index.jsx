@@ -65,6 +65,7 @@ export default function Login(props) {
   const handleSaveChanges = () => {
     console.log(email);
     console.log(password);
+    navigate("/home")
 
     // Lógica para salvar as alterações do login
 

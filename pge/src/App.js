@@ -1,12 +1,8 @@
 import './App.css';
-import Teste from './Components/Teste'
-import Inicio from './pages/inicio';
+import Router from './Router';
+
 function App() {
-  return (
-    <div className="App">
-      <Inicio></Inicio>
-    </div>
-  );
+  return <Router></Router>;
 }
 
 export default App;
