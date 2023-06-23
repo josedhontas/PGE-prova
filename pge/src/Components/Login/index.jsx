@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -8,7 +8,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-//import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 
@@ -55,6 +54,7 @@ export default function Login(props) {
   const { onClose, setUsuarioData } = props;
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [emailError, setEmailError] = React.useState('');
 
   const handleClose = () => {
     if (onClose) {
@@ -63,9 +63,12 @@ export default function Login(props) {
   };
 
   const handleSaveChanges = () => {
-    //console.log(email);
-    //console.log(password);
-  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError('Email inválido');
+      return;
+    }
+
     fetch('http://localhost:8000/usuario/autenticar', {
       method: 'POST',
       headers: {
@@ -85,7 +88,19 @@ export default function Login(props) {
         console.error(error);
       });
   };
-  
+
+  const handleEmailBlur = (event) => {
+    const { value } = event.target;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!value.trim()) {
+      setEmailError('');
+    } else if (!emailRegex.test(value)) {
+      setEmailError('Email inválido');
+    } else {
+      setEmailError('');
+    }
+  };
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -110,7 +125,10 @@ export default function Login(props) {
             label="Email"
             type="email"
             value={email}
+            onBlur={handleEmailBlur}
             onChange={handleEmailChange}
+            error={!!emailError}
+            helperText={emailError}
             fullWidth
             margin="normal"
           />

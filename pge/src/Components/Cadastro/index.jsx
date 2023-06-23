@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -56,7 +56,10 @@ export default function Cadastro(props) {
   const [nome, setNome] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
-  const [cargo, setCargo] = React.useState('');
+  const [cargo, setCargo] = React.useState('false');
+  const [emailError, setEmailError] = React.useState('');
+  const [passwordError, setPasswordError] = React.useState('');
+  const [nomeError, setNomeError] = React.useState('');
 
   const handleClose = () => {
     if (onClose) {
@@ -65,11 +68,26 @@ export default function Cadastro(props) {
   };
 
   const handleSaveChanges = () => {
-    console.log(nome);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setEmailError('Email inválido');
+      return;
+    }
+
+    if(!nome.trim()){
+      setNomeError('O campo Nome é obrigatório')
+      return;
+    }
+
+    if (password.length < 8) {
+      setPasswordError('Senha inválida');
+      return;
+    }
+    /*console.log(nome);
     console.log(email);
     console.log(password);
-    console.log(cargo);
-    //handleClose();
+    console.log(cargo);*/
     const userData = {
       nome: nome,
       email: email,
@@ -95,15 +113,41 @@ export default function Cadastro(props) {
   };
 
   const handleNomeChange = (event) => {
-    setNome(event.target.value);
+    const { value } = event.target;
+    setNome(value);
+
+    if (!value.trim()) {
+      setNomeError('O campo Nome é obrigatório');
+    } else {
+      setNomeError('');
+    }
   };
 
   const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+    const { value } = event.target;
+    setEmail(value);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!value.trim()) {
+      setEmailError('');
+    } else if (!emailRegex.test(value)) {
+      setEmailError('Email inválido');
+    } else {
+      setEmailError('');
+    }
   };
 
   const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+    const { value } = event.target;
+    setPassword(value);
+
+    if (value.length === 0) {
+      setPasswordError('');
+    } else if (value.length < 8) {
+      setPasswordError('Senha deve ter no mínimo 8 caracteres');
+    } else {
+      setPasswordError('');
+    }
   };
 
   const handleCargoChange = (event) => {
@@ -125,14 +169,19 @@ export default function Cadastro(props) {
             label="Nome"
             value={nome}
             onChange={handleNomeChange}
+            error={!!nomeError}
+            helperText={nomeError}
             fullWidth
             margin="normal"
           />
+
           <TextField
             label="Email"
             type="email"
             value={email}
             onChange={handleEmailChange}
+            error={!!emailError}
+            helperText={emailError}
             fullWidth
             margin="normal"
           />
@@ -141,6 +190,8 @@ export default function Cadastro(props) {
             type="password"
             value={password}
             onChange={handlePasswordChange}
+            error={!!passwordError}
+            helperText={passwordError}
             fullWidth
             margin="normal"
           />
