@@ -23,7 +23,7 @@ export class ProcessoJuridico {
   @Column()
   descricao: string;
 
-  @ManyToMany(() => Caixa)
-  @JoinTable()
+  @ManyToMany(() => Caixa, caixa => caixa.processosjuridicos)
   caixas: Caixa[];
+  
 }

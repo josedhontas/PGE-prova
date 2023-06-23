@@ -7,7 +7,6 @@ export class Caixa {
   constructor(nome: string, usuario: Usuario) {
     this.nome = nome;
     this.usuario = usuario;
-    
   }
 
   @PrimaryGeneratedColumn()
@@ -19,7 +18,8 @@ export class Caixa {
   @ManyToOne(() => Usuario)
   usuario: Usuario;
 
-  @ManyToMany(() => ProcessoJuridico)
+  @ManyToMany(() => ProcessoJuridico, processoJuridico => processoJuridico.caixas)
   @JoinTable()
   processosjuridicos: ProcessoJuridico[];
+  
 }

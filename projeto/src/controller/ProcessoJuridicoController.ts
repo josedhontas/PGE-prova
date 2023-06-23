@@ -1,11 +1,14 @@
 import { getManager } from "typeorm";
 import { ProcessoJuridico } from "../entity/ProcessoJuridico";
+import { Caixa } from "../entity/Caixa";
+
 
 class ProcessoJuridicoController {
   async criarProcessoJuridico(processoJuridico: ProcessoJuridico) {
     const processoJuridicoSalvo = await getManager().save(processoJuridico);
     return processoJuridicoSalvo;
   }
+  
 
   async listarProcessosJuridicos() {
     const processosJuridicos = await getManager().find(ProcessoJuridico);
