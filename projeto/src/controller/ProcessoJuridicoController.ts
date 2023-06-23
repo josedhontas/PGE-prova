@@ -1,7 +1,5 @@
 import { getManager } from "typeorm";
 import { ProcessoJuridico } from "../entity/ProcessoJuridico";
-import { Caixa } from "../entity/Caixa";
-
 
 class ProcessoJuridicoController {
   async criarProcessoJuridico(processoJuridico: ProcessoJuridico) {
@@ -28,6 +26,14 @@ class ProcessoJuridicoController {
     const processoJuridicoAtualizado = Object.assign(processoJuridico, dadosAtualizados);
     const processoJuridicoSalvo = await getManager().save(processoJuridicoAtualizado);
     return processoJuridicoSalvo;
+  }
+
+  async listarCaixasPorProcessoJuridicoId(processoJuridicoId: number) {
+    const processoJuridico = await getManager().findOne(ProcessoJuridico, processoJuridicoId, { relations: ["caixas"] });
+    if (!processoJuridico) {
+      throw new Error(`Processo Jurídico com o ID ${processoJuridicoId} não encontrado.`);
+    }
+    return processoJuridico.caixas;
   }
 
   async excluirProcessoJuridicoPorId(id: number) {

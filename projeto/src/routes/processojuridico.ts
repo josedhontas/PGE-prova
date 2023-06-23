@@ -22,6 +22,17 @@ routerProcessoJuridico.get('/:id', async (req, res) => {
 
   res.json(processoJuridico);
 });
+
+routerProcessoJuridico.get('/:id/caixas', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const caixas = await processoJuridicoCtrl.listarCaixasPorProcessoJuridicoId(Number(id));
+    res.json(caixas);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+});
+
 routerProcessoJuridico.post('/', async (req, res) => {
   const { numero, descricao, caixaId } = req.body;
 
