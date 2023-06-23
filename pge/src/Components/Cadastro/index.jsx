@@ -70,6 +70,28 @@ export default function Cadastro(props) {
     console.log(password);
     console.log(cargo);
     //handleClose();
+    const userData = {
+      nome: nome,
+      email: email,
+      senha: password,
+      cargo: cargo
+    };
+
+    fetch('http://localhost:8000/usuario/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Registration successful:', data);
+        handleClose();
+      })
+      .catch(error => {
+        console.error('Registration failed:', error);
+      });
   };
 
   const handleNomeChange = (event) => {
