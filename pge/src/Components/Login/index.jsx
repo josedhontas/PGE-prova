@@ -55,6 +55,7 @@ export default function Login(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [emailError, setEmailError] = React.useState('');
+  const [passwordError, setPasswordError] = React.useState('');
 
   const handleClose = () => {
     if (onClose) {
@@ -66,6 +67,11 @@ export default function Login(props) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setEmailError('Email inválido');
+      return;
+    }
+
+    if (password.length < 8) {
+      setPasswordError('Senha inválida');
       return;
     }
 
@@ -81,6 +87,8 @@ export default function Login(props) {
           setUsuarioData("bilola");
           navigate('/entrada');
         } else {
+          setEmailError('Email ou senha incorreta');
+          setPasswordError('Email ou senha incorreta');
           throw new Error('Falha na autenticação');
         }
       })
@@ -107,7 +115,16 @@ export default function Login(props) {
   };
 
   const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
+    const { value } = event.target;
+    setPassword(value);
+
+    if (value.length === 0) {
+      setPasswordError('');
+    } else if (value.length < 8) {
+      setPasswordError('Senha deve ter no mínimo 8 caracteres');
+    } else {
+      setPasswordError('');
+    }
   };
 
   return (
@@ -137,6 +154,8 @@ export default function Login(props) {
             type="password"
             value={password}
             onChange={handlePasswordChange}
+            error={!!passwordError}
+            helperText={passwordError}
             fullWidth
             margin="normal"
           />
