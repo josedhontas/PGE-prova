@@ -51,7 +51,7 @@ class UsuarioController {
     }
 
     const caixaNome = usuario.caixas.find((caixa) => caixa.nome === nome)
-    return caixaNome;
+    return caixaNome.id;
   }
 
   async autenticarUsuario(email: string, senha: string) {

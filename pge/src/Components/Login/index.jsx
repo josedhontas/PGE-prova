@@ -82,19 +82,22 @@ export default function Login(props) {
       },
       body: JSON.stringify({ email, senha: password }),
     })
-      .then(response => {
-        if (response.ok) {
-          setUsuarioData("bilola");
-          navigate('/entrada');
-        } else {
-          setEmailError('Email ou senha incorreta');
-          setPasswordError('Email ou senha incorreta');
-          throw new Error('Falha na autenticação');
-        }
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        setEmailError('Email ou senha incorreta');
+        setPasswordError('Email ou senha incorreta');
+        throw new Error('Falha na autenticação');
+      }
+    })
+    .then(data => {
+      setUsuarioData(data);
+      navigate('/entrada');
+    })
+    .catch(error => {
+      console.error(error);
+    });    
   };
 
   const handleEmailBlur = (event) => {

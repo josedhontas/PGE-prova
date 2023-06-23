@@ -10,6 +10,7 @@ const usuarioCtrl = new UsuarioController();
 
 const caixaCtrl = new CaixaController();
 
+
 routerUsuario.post('/', async (req, res) =>{
     const {email, nome, senha, cargo} = req.body;
     const usuario = new Usuario(email, nome, senha, cargo);
@@ -38,8 +39,24 @@ routerUsuario.get('/:id', async(req, res) => {
     res.json(usuarioCaixas)
 }) 
 
-routerUsuario.get('/caixa/:id', async(req, res) => {
+routerUsuario.get('/entrada/:id', async(req, res) => {
     const {id} = req.body;
     const usuarioCaixas = await usuarioCtrl.listarCaixa(id, 'Entrada');
-    res.json(usuarioCaixas)
+    const processos = await caixaCtrl.listarProcessosJuridicosPorCaixaId(usuarioCaixas)
+    res.json(processos)
 }) 
+
+routerUsuario.get('/saida/:id', async(req, res) => {
+  const {id} = req.body;
+  const usuarioCaixas = await usuarioCtrl.listarCaixa(id, 'Saida');
+  const processos = await caixaCtrl.listarProcessosJuridicosPorCaixaId(usuarioCaixas)
+  console.log(processos)
+  res.json(processos)
+}) 
+
+routerUsuario.get('/arquivada/:id', async(req, res) => {
+  const {id} = req.body;
+  const usuarioCaixas = await usuarioCtrl.listarCaixa(id, 'Arquivada');
+  const processos = await caixaCtrl.listarProcessosJuridicosPorCaixaId(usuarioCaixas)
+  res.json(processos)
+})

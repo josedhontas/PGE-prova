@@ -90,7 +90,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function NavBarHome(props) {
-    console.log(props.usuarioData)
+    //console.log(props.usuarioData)
     const menu = [
         {
             texto: 'Entrada',

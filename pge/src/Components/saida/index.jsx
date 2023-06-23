@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -77,32 +77,14 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, calories, fat) {
-  return { name, calories, fat };
-}
-
-const rows = [
-  createData('Cupcake', 305, 3.7),
-  createData('Donut', 452, 25.0),
-  createData('Eclair', 262, 16.0),
-  createData('Frozen yoghurt', 159, 6.0),
-  createData('Gingerbread', 356, 16.0),
-  createData('Honeycomb', 408, 3.2),
-  createData('Ice cream sandwich', 237, 9.0),
-  createData('Jelly Bean', 375, 0.0),
-  createData('KitKat', 518, 26.0),
-  createData('Lollipop', 392, 0.2),
-  createData('Marshmallow', 318, 0),
-  createData('Nougat', 360, 19.0),
-  createData('Oreo', 437, 18.0),
-].sort((a, b) => (a.calories < b.calories ? -1 : 1));
-
-export default function Saida() {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+export default function Saida({ usuarioData }) {
+  console.log(usuarioData.id)
+  const [data, setData] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -113,30 +95,41 @@ export default function Saida() {
     setPage(0);
   };
 
+  useEffect(() => {
+    fetch(`http://localhost:8000/usuario/saida/${usuarioData.id}`)
+      .then(response => response.json())
+      .then(apiData => {
+        setData(apiData); // Atualiza o estado com os dados da API
+        console.log(apiData);
+      })
+      .catch(error => {
+        console.error('Erro ao obter os dados da API:', error);
+      });
+  }, []);
+
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label="personalizado">
         <TableBody>
           {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
+            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : data
           ).map((row) => (
-            <TableRow key={row.name}>
+            <TableRow key={row.id}>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.numero}
               </TableCell>
               <TableCell style={{ width: 160 }} align="right">
-                {row.calories}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.fat}
+                {row.descricao}
               </TableCell>
             </TableRow>
           ))}
 
+
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
+              <TableCell colSpan={3} />
             </TableRow>
           )}
         </TableBody>
@@ -144,14 +137,14 @@ export default function Saida() {
           <TableRow>
             <TablePagination
               labelDisplayedRows={({ from, to, count }) =>
-              `${from}-${to} de ${count !== -1 ? count : 'tudo'}`
-            }
+                `${from}-${to} de ${count !== -1 ? count : 'tudo'}`
+              }
               rowsPerPageOptions={[5, 10, 25, { label: 'Tudo', value: -1 }]}
               colSpan={3}
-              count={rows.length}
+              count={data.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              labelRowsPerPage={"Processos por página"}
+              labelRowsPerPage="Processos por página"
               onPageChange={handleChangePage}
               onRowsPerPageChange={handleChangeRowsPerPage}
               ActionsComponent={TablePaginationActions}
