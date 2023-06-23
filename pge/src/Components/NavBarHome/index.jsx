@@ -20,7 +20,8 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
-import Saida from '../saida';
+import { Link } from 'react-router-dom';
+
 
 const drawerWidth = 240;
 
@@ -91,18 +92,22 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function NavBarHome(props) {
     const menu = [
         {
-            text: 'Entrada',
+            texto: 'Entrada',
             icon: <InboxIcon />,
+            local: '/home'
+
         },
 
         {
-            text: 'Saida',
+            texto: 'Saida',
             icon: <ForwardToInboxIcon />,
+            local: '/home/saida'
         },
 
         {
-            text: 'Arquivado',
+            texto: 'Arquivado',
             icon: <ArchiveIcon />,
+            local: '/home/arquivado'
         },
 
     ]
@@ -148,58 +153,63 @@ export default function NavBarHome(props) {
                 <Divider />
                 <List>
                     {menu.map((item) => (
-                        <ListItem key={item.text} disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                }}
-                            >
-                                <ListItemIcon
+                        <ListItem key={item.texto} disablePadding sx={{ display: 'block' }}>
+                            <Link to={item.local} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <ListItemButton
                                     sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
                                     }}
                                 >
-                                    {item.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
-                            </ListItemButton>
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        {item.icon}
+                                    </ListItemIcon>
+                                    <ListItemText primary={item.texto} sx={{ opacity: open ? 1 : 0 }} />
+                                </ListItemButton>
+                            </Link>
                         </ListItem>
                     ))}
+
 
                 </List>
                 <Divider />
                 <List>
-                    {['Sair'].map((text, index) => (
-                        <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                            <ListItemButton
-                                sx={{
-                                    minHeight: 48,
-                                    justifyContent: open ? 'initial' : 'center',
-                                    px: 2.5,
-                                }}
-                            >
-                                <ListItemIcon
+                    {['Sair'].map((texto, index) => (
+                        <ListItem key={texto} disablePadding sx={{ display: 'block' }}>
+                            <Link to={'/'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <ListItemButton
                                     sx={{
-                                        minWidth: 0,
-                                        mr: open ? 3 : 'auto',
-                                        justifyContent: 'center',
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
                                     }}
                                 >
-                                    {<ExitToAppIcon></ExitToAppIcon>}
-                                </ListItemIcon>
-                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                            </ListItemButton>
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        {<ExitToAppIcon></ExitToAppIcon>}
+                                    </ListItemIcon>
+                                    <ListItemText primary={texto} sx={{ opacity: open ? 1 : 0 }} />
+                                </ListItemButton>
+                            </Link>
                         </ListItem>
                     ))}
                 </List>
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />
-                <Saida></Saida>
+                {props.page}
             </Box>
         </Box>
     );

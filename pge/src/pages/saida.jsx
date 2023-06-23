@@ -1,7 +1,8 @@
 import React from 'react'
-
-export default function saida() {
+import NavBarHome from '../Components/NavBarHome'
+import Saida from '../Components/saida'
+export default function SaidaPage() {
   return (
-    <div>saida</div>
+    <div><NavBarHome page={<Saida/>}></NavBarHome></div>
   )
 }
