@@ -44,6 +44,16 @@ class UsuarioController {
     return usuario.caixas;
   }
 
+  async listarCaixa(usuarioId: number, nome: string) {
+    const usuario = await getManager().findOne(Usuario, usuarioId, { relations: ["caixas"] });
+    if (!usuario) {
+      throw new Error(`Usuario com o ID ${usuarioId} não encontrada.`);
+    }
+
+    const caixaNome = usuario.caixas.find((caixa) => caixa.nome === nome)
+    return caixaNome;
+  }
+
   async autenticarUsuario(email: string, senha: string) {
     const usuario = await getManager().findOne(Usuario, { email });
     

@@ -11,8 +11,8 @@ const usuarioCtrl = new UsuarioController();
 const caixaCtrl = new CaixaController();
 
 routerUsuario.post('/', async (req, res) =>{
-    const {email, senha, cargo} = req.body;
-    const usuario = new Usuario(email, senha, cargo);
+    const {email, nome, senha, cargo} = req.body;
+    const usuario = new Usuario(email, nome, senha, cargo);
     const usuarioSalvo = await usuarioCtrl.criarUsuario(usuario)
     const caixaEntrada = await caixaCtrl.criarCaixa(new Caixa("Entrada", usuario))
     const caixaSaida = await caixaCtrl.criarCaixa(new Caixa("Saida", usuario))
@@ -35,6 +35,11 @@ routerUsuario.post('/autenticar', async (req, res) => {
 routerUsuario.get('/:id', async(req, res) => {
     const {id} = req.body;
     const usuarioCaixas = await usuarioCtrl.listarCaixas(id);
-    console.log(usuarioCaixas)
+    res.json(usuarioCaixas)
+}) 
+
+routerUsuario.get('/caixa/:id', async(req, res) => {
+    const {id} = req.body;
+    const usuarioCaixas = await usuarioCtrl.listarCaixa(id, 'Entrada');
     res.json(usuarioCaixas)
 }) 
