@@ -52,7 +52,7 @@ BootstrapDialogTitle.propTypes = {
 
 export default function Login(props) {
   const navigate = useNavigate();
-  const { onClose } = props;
+  const { onClose, setUsuarioData } = props;
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
@@ -63,15 +63,29 @@ export default function Login(props) {
   };
 
   const handleSaveChanges = () => {
-    console.log(email);
-    console.log(password);
-    navigate("/home")
-
-    // Lógica para salvar as alterações do login
-
-    // Fechar o diálogo de login
-    //handleClose();
+    //console.log(email);
+    //console.log(password);
+  
+    fetch('http://localhost:8000/usuario/autenticar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, senha: password }),
+    })
+      .then(response => {
+        if (response.ok) {
+          setUsuarioData("bilola");
+          navigate('/entrada');
+        } else {
+          throw new Error('Falha na autenticação');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
+  
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);

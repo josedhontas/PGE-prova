@@ -7,7 +7,7 @@ import { useState } from 'react';
 import Login from '../Login';
 import Cadastro from '../Cadastro';
 
-export default function ButtonAppBar() {
+export default function Navbar({setUsuarioData}) {
   const [login, setLogin] = useState(false);
   const [cadastro, setCadastro] = useState(false);
 
@@ -39,7 +39,7 @@ export default function ButtonAppBar() {
           </Button>
         </Toolbar>
       </AppBar>
-      {login && <Login onClose={handleCloseDialog} />}
+      {login && <Login setUsuarioData={setUsuarioData} onClose={handleCloseDialog} />}
       {cadastro && <Cadastro onClose={handleCloseDialog} />}
 
     </Box>

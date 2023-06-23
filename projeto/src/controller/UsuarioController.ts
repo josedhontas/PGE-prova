@@ -43,6 +43,21 @@ class UsuarioController {
     }
     return usuario.caixas;
   }
+
+  async autenticarUsuario(email: string, senha: string) {
+    const usuario = await getManager().findOne(Usuario, { email });
+    
+    if (!usuario) {
+      throw new Error("Credenciais inválidas. Usuário não encontrado.");
+    }
+    
+    if (usuario.senha !== senha) {
+      throw new Error("Credenciais inválidas. Senha incorreta.");
+    }
+    
+    return usuario;
+  }
+  
 }
 
 export default UsuarioController;

@@ -20,6 +20,17 @@ routerUsuario.post('/', async (req, res) =>{
     res.json(usuarioSalvo);
 })
 
+routerUsuario.post('/autenticar', async (req, res) => {
+    const { email, senha } = req.body;
+  
+    try {
+      const usuarioAutenticado = await usuarioCtrl.autenticarUsuario(email, senha);
+      res.json(usuarioAutenticado);
+    } catch (error) {
+      res.status(401).json({ error: error.message });
+    }
+  })
+
 
 routerUsuario.get('/:id', async(req, res) => {
     const {id} = req.body;

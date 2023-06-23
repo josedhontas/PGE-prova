@@ -3,10 +3,10 @@ import { Container, Grid, Box } from '@mui/material';
 import Navbar from '../Components/Navbar';
 import inicio from '../img/inicio.png'
 
-export default function Inicio() {
+export default function Inicio({setUsuarioData}) {
   return (
     <div>
-      <Navbar />
+      <Navbar setUsuarioData={setUsuarioData}/>
       <Container maxWidth="sm" sx={{ height: '100vh' }}>
         <Grid
           container

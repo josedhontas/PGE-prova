@@ -2,8 +2,8 @@ import React from 'react'
 import NavBarHome from '../Components/NavBarHome'
 import Arquivado from '../Components/arquivado'
 
-export default function ArquivadoPage() {
+export default function ArquivadoPage({usuarioData}) {
   return (
-    <div><NavBarHome page={<Arquivado/>}></NavBarHome></div>
+    <div><NavBarHome usuarioData = {usuarioData} page={<Arquivado/>}></NavBarHome></div>
   )
 }
