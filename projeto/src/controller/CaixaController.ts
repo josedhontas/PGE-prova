@@ -24,6 +24,29 @@ class CaixaController {
     }
     return caixa.processosjuridicos;
   }
+  
+  async moverConteudoEntreCaixas(origemId: number, destinoId: number, conteudoId: number) {
+    const origem = await getManager().findOne(Caixa, origemId, { relations: ["processosjuridicos"] });
+    const destino = await getManager().findOne(Caixa, destinoId, { relations: ["processosjuridicos"] });
+  
+    if (!origem || !destino) {
+      throw new Error("Caixa de origem ou caixa de destino não encontrada.");
+    }
+  
+    const conteudo = origem.processosjuridicos.find(processo => processo.id === conteudoId);
+  
+    if (!conteudo) {
+      throw new Error("Conteúdo específico não encontrado na caixa de origem.");
+    }
+  
+    origem.processosjuridicos = origem.processosjuridicos.filter(processo => processo.id !== conteudoId);
+    destino.processosjuridicos.push(conteudo);
+  
+    await getManager().save([origem, destino]);
+  
+    return destino;
+  }
+  
 }
 
 export default CaixaController;

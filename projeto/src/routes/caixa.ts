@@ -14,3 +14,4 @@ routerCaixa.get('/', async(req, res) => {
     const caixas = await caixaCtrl.listarCaixas();
     res.json(caixas)
 }) 
+

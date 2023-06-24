@@ -18,6 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import axios from 'axios';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -110,21 +111,41 @@ export default function Entrada({ usuarioData }) {
   };
 
   const handleMenuItemClick = (rowId, option) => {
-    console.log(`Opção selecionada para o ID ${rowId}: ${option}`);
+    //console.log(`Opção selecionada para o ID ${rowId}: ${option}`);
     handleMenuClose();
+
+    if (option === 'Arquivar') {
+
+      const userData = {
+        idUsuario: usuarioData.id,
+        idProcesso: rowId
+
+      };
+
+      fetch('http://localhost:8000/usuario/arquivar', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      })
+      getDados();
+
+    }
   };
 
   useEffect(() => {
-    fetch(`http://localhost:8000/usuario/entrada/${usuarioData.id}`)
-      .then(response => response.json())
-      .then(apiData => {
-        setData(apiData);
-        console.log(apiData);
-      })
-      .catch(error => {
-        console.error('Erro ao obter os dados da API:', error);
-      });
-  }, []);
+    getDados();
+  }, [data]);
+  
+  
+
+  const getDados = () => {
+    axios
+      .get(`http://localhost:8000/usuario/entrada/${usuarioData.id}`)
+      .then((res) => setData(res.data))
+      .catch((err) => console.log(err))
+  }
 
   return (
     <TableContainer component={Paper} >
@@ -149,16 +170,16 @@ export default function Entrada({ usuarioData }) {
                   open={Boolean(anchorEl) && selectedRowId === row.id}
                   onClose={handleMenuClose}
                 >
-                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'apagar')}>
+                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'Apagar')}>
                     Apagar
                   </MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'editar')}>
+                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'Editar')}>
                     Editar
                   </MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'editar')}>
+                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'Arquivar')}>
                     Arquivar
                   </MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'editar')}>
+                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'Enviar')}>
                     Enviar
                   </MenuItem>
                 </Menu>

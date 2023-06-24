@@ -60,3 +60,23 @@ routerUsuario.get('/arquivada/:id', async(req, res) => {
   const processos = await caixaCtrl.listarProcessosJuridicosPorCaixaId(usuarioCaixas)
   res.json(processos)
 })
+
+
+routerUsuario.put('/arquivar', async(req, res) => {
+  const {idUusario, idProcesso} = req.body;
+  const entrada = await usuarioCtrl.listarCaixa(idUusario, 'Entrada');
+  const arquivar = await usuarioCtrl.listarCaixa(idUusario, 'Arquivada');
+  const mover = await caixaCtrl.moverConteudoEntreCaixas(entrada, arquivar, idProcesso);
+  res.json(mover)
+})
+
+
+routerUsuario.put('/desarquivar', async(req, res) => {
+  const {idUusario, idProcesso} = req.body;
+  const entrada = await usuarioCtrl.listarCaixa(idUusario, 'Entrada');
+  const arquivar = await usuarioCtrl.listarCaixa(idUusario, 'Arquivada');
+  const mover = await caixaCtrl.moverConteudoEntreCaixas(arquivar, entrada, idProcesso);
+  res.json(mover)
+})
+
+

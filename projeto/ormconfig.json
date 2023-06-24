@@ -1,10 +1,10 @@
 {
-   "type": "postgres",
-   "host": "localhost",
-   "port": 5432,
-   "username": "postgres",
-   "password": "postgres",
-   "database": "registro",
+   "type": "mysql",
+   "host": "pge-bd.c1ho6i6ieglz.us-east-1.rds.amazonaws.com",
+   "port": 3306,
+   "username": "pge",
+   "password": "pgemaster",
+   "database": "teste",
    "synchronize": true,
    "logging": false,
    "entities": [

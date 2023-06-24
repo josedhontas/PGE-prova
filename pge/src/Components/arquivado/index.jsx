@@ -18,6 +18,7 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import axios from 'axios';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -110,22 +111,43 @@ export default function Saida({ usuarioData }) {
   };
 
   const handleMenuItemClick = (rowId, option) => {
-    console.log(`Opção selecionada para o ID ${rowId}: ${option}`);
     handleMenuClose();
+
+    if (option === 'Desarquivar') {
+
+      const userData = {
+        idUsuario: usuarioData.id,
+        idProcesso: rowId
+
+      };
+
+      fetch('http://localhost:8000/usuario/desarquivar', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      })
+      getDados();
+
+    }
   };
 
   useEffect(() => {
-    fetch(`http://localhost:8000/usuario/arquivada/${usuarioData.id}`)
-      .then(response => response.json())
-      .then(apiData => {
-        setData(apiData);
-        console.log(apiData);
-      })
-      .catch(error => {
-        console.error('Erro ao obter os dados da API:', error);
-      });
-  }, []);
+    getDados();
+  }, [data]);
+  
+  
 
+  const getDados = () => {
+    axios
+      .get(`http://localhost:8000/usuario/arquivada/${usuarioData.id}`)
+      .then((res) => setData(res.data))
+      .catch((err) => console.log(err))
+  }
+
+
+  //console.log(usuarioData)
   return (
     <TableContainer component={Paper} >
       <Table sx={{ minWidth: 400 }} aria-label="personalizado">
@@ -141,19 +163,19 @@ export default function Saida({ usuarioData }) {
               <TableCell>
               </TableCell>
               <IconButton onClick={(event) => handleMenuOpen(event, row.id)}>
-                  <MoreVertIcon />
-                </IconButton>
-                <Menu
-                  id={`menu-${row.id}`}
-                  anchorEl={anchorEl}
-                  open={Boolean(anchorEl) && selectedRowId === row.id}
-                  onClose={handleMenuClose}
-                >
-                  <MenuItem onClick={() => handleMenuItemClick(row.numero, 'Desarquivar')}>
-                    Desarquivar
-                  </MenuItem>
-                </Menu>
-              
+                <MoreVertIcon />
+              </IconButton>
+              <Menu
+                id={`menu-${row.id}`}
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl) && selectedRowId === row.id}
+                onClose={handleMenuClose}
+              >
+                <MenuItem onClick={() => handleMenuItemClick(row.id, 'Desarquivar')}>
+                  Desarquivar
+                </MenuItem>
+              </Menu>
+
             </TableRow>
           ))}
         </TableBody>

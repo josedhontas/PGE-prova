@@ -151,8 +151,10 @@ export default function Cadastro(props) {
   };
 
   const handleCargoChange = (event) => {
-    setCargo(event.target.value);
+    const { value } = event.target;
+    setCargo(JSON.parse(value));
   };
+  
 
   return (
     <div>
