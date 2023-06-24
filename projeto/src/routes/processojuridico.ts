@@ -55,12 +55,11 @@ routerProcessoJuridico.post('/', async (req, res) => {
 
 routerProcessoJuridico.put('/:id', async (req, res) => {
   const { id } = req.params;
-  const { numero, descricao, caixaId } = req.body;
+  const { numero, descricao} = req.body;
 
   const dadosAtualizados = {
     numero,
     descricao,
-    caixa: caixaId
   };
 
   try {

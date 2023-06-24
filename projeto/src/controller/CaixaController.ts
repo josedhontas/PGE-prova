@@ -46,6 +46,24 @@ class CaixaController {
   
     return destino;
   }
+
+  async removerProcessoJuridicoDeCaixa(processoJuridicoId: number, caixaId: number) {
+    const caixa = await getManager().findOne(Caixa, caixaId, { relations: ["processosjuridicos"] });
+  
+    if (!caixa) {
+      throw new Error(`Caixa com o ID ${caixaId} não encontrada.`);
+    }
+    const processoJuridico = caixa.processosjuridicos.find(processo => processo.id === processoJuridicoId);
+  
+    if (!processoJuridico) {
+      throw new Error(`Processo Jurídico com o ID ${processoJuridicoId} não encontrado na caixa.`);
+    }
+    caixa.processosjuridicos = caixa.processosjuridicos.filter(processo => processo.id !== processoJuridicoId);
+  
+    await getManager().save(caixa);
+  
+    return caixa;
+  }
   
 }
 

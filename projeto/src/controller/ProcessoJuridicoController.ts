@@ -23,10 +23,14 @@ class ProcessoJuridicoController {
     if (!processoJuridico) {
       throw new Error(`Processo Jurídico com o ID ${id} não encontrado.`);
     }
-    const processoJuridicoAtualizado = Object.assign(processoJuridico, dadosAtualizados);
-    const processoJuridicoSalvo = await getManager().save(processoJuridicoAtualizado);
+    
+    processoJuridico.numero = dadosAtualizados.numero;
+    processoJuridico.descricao = dadosAtualizados.descricao;
+  
+    const processoJuridicoSalvo = await getManager().save(processoJuridico);
     return processoJuridicoSalvo;
   }
+  
 
   async listarCaixasPorProcessoJuridicoId(processoJuridicoId: number) {
     const processoJuridico = await getManager().findOne(ProcessoJuridico, processoJuridicoId, { relations: ["caixas"] });

@@ -21,6 +21,8 @@ routerUsuario.post('/', async (req, res) =>{
     res.json(usuarioSalvo);
 })
 
+// autenticar o usuario 
+
 routerUsuario.post('/autenticar', async (req, res) => {
     const { email, senha } = req.body;
   
@@ -39,12 +41,16 @@ routerUsuario.get('/:id', async(req, res) => {
     res.json(usuarioCaixas)
 }) 
 
+// listar os processos do usuario (procurador/acessor) na entrada
+
 routerUsuario.get('/entrada/:id', async(req, res) => {
     const {id} = req.body;
     const usuarioCaixas = await usuarioCtrl.listarCaixa(id, 'Entrada');
     const processos = await caixaCtrl.listarProcessosJuridicosPorCaixaId(usuarioCaixas)
     res.json(processos)
 }) 
+
+// listar os processos do usuario (procurador/acessor) na saida
 
 routerUsuario.get('/saida/:id', async(req, res) => {
   const {id} = req.body;
@@ -54,6 +60,8 @@ routerUsuario.get('/saida/:id', async(req, res) => {
   res.json(processos)
 }) 
 
+// listar os processos do usuario (procurador/acessor) em arquivado
+
 routerUsuario.get('/arquivada/:id', async(req, res) => {
   const {id} = req.body;
   const usuarioCaixas = await usuarioCtrl.listarCaixa(id, 'Arquivada');
@@ -61,15 +69,17 @@ routerUsuario.get('/arquivada/:id', async(req, res) => {
   res.json(processos)
 })
 
+//Arquivar um processo
 
 routerUsuario.put('/arquivar', async(req, res) => {
-  const {idUusario, idProcesso} = req.body;
-  const entrada = await usuarioCtrl.listarCaixa(idUusario, 'Entrada');
-  const arquivar = await usuarioCtrl.listarCaixa(idUusario, 'Arquivada');
+  const {idUsario, idProcesso} = req.body;
+  const entrada = await usuarioCtrl.listarCaixa(idUsario, 'Entrada');
+  const arquivar = await usuarioCtrl.listarCaixa(idUsario, 'Arquivada');
   const mover = await caixaCtrl.moverConteudoEntreCaixas(entrada, arquivar, idProcesso);
   res.json(mover)
 })
 
+// desarquivar um processo
 
 routerUsuario.put('/desarquivar', async(req, res) => {
   const {idUusario, idProcesso} = req.body;
@@ -78,5 +88,16 @@ routerUsuario.put('/desarquivar', async(req, res) => {
   const mover = await caixaCtrl.moverConteudoEntreCaixas(arquivar, entrada, idProcesso);
   res.json(mover)
 })
+
+// excluir um processo
+
+routerUsuario.delete('/excluir', async(req, res) => {
+  const {idProcesso, idUsario} = req.body;
+  const idCaixa = await usuarioCtrl.listarCaixa(idUsario, 'Entrada');
+  const excluido = await caixaCtrl.removerProcessoJuridicoDeCaixa(idProcesso, idCaixa);
+  res.json(excluido);
+})
+
+
 
 

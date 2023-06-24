@@ -19,6 +19,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
+import Editar from '../editar';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -87,9 +88,13 @@ export default function Entrada({ usuarioData }) {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
+  const [editar, setEditar] = useState(false);
+  const [processo, setProcesso] = useState()
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
+  
+  const handleCloseDialog = () => {
+    setEditar(false);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -110,17 +115,16 @@ export default function Entrada({ usuarioData }) {
     setSelectedRowId(null);
   };
 
-  const handleMenuItemClick = (rowId, option) => {
-    //console.log(`Opção selecionada para o ID ${rowId}: ${option}`);
+  const handleMenuItemClick = (row, option) => {
+    //console.log(row)
     handleMenuClose();
+    const userData = {
+      idUsuario: usuarioData.id,
+      idProcesso: row.id
+
+    };
 
     if (option === 'Arquivar') {
-
-      const userData = {
-        idUsuario: usuarioData.id,
-        idProcesso: rowId
-
-      };
 
       fetch('http://localhost:8000/usuario/arquivar', {
         method: 'PUT',
@@ -129,16 +133,34 @@ export default function Entrada({ usuarioData }) {
         },
         body: JSON.stringify(userData),
       })
-      getDados();
-
     }
+
+
+    if (option === 'Excluir') {
+
+      fetch('http://localhost:8000/usuario/excluir', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      })
+    }
+
+    if (option === 'Editar') {
+      setEditar(true);
+      setProcesso(row)
+    }
+
+    getDados();
+
   };
 
   useEffect(() => {
     getDados();
   }, [data]);
-  
-  
+
+
 
   const getDados = () => {
     axios
@@ -148,20 +170,21 @@ export default function Entrada({ usuarioData }) {
   }
 
   return (
-    <TableContainer component={Paper} >
-      <Table sx={{ minWidth: 400 }} aria-label="personalizado">
-        <TableBody>
-          {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                {row.numero}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
-                {row.descricao}
-              </TableCell>
-              <TableCell>
-              </TableCell>
-              <IconButton onClick={(event) => handleMenuOpen(event, row.id)}>
+    <>
+      <TableContainer component={Paper} >
+        <Table sx={{ minWidth: 400 }} aria-label="personalizado">
+          <TableBody>
+            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+              <TableRow key={row.id}>
+                <TableCell component="th" scope="row">
+                  {row.numero}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="right">
+                  {row.descricao}
+                </TableCell>
+                <TableCell>
+                </TableCell>
+                <IconButton onClick={(event) => handleMenuOpen(event, row.id)}>
                   <MoreVertIcon />
                 </IconButton>
                 <Menu
@@ -170,42 +193,47 @@ export default function Entrada({ usuarioData }) {
                   open={Boolean(anchorEl) && selectedRowId === row.id}
                   onClose={handleMenuClose}
                 >
-                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'Apagar')}>
-                    Apagar
-                  </MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'Editar')}>
-                    Editar
-                  </MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'Arquivar')}>
+                  {usuarioData.cargo ? (
+                    <>
+                      <MenuItem onClick={() => handleMenuItemClick(row, 'Excluir')}>
+                        Excluir
+                      </MenuItem>
+                      <MenuItem onClick={() => handleMenuItemClick(row, 'Editar')}>
+                        Editar
+                      </MenuItem>
+                    </>
+                  ) : null}
+                  <MenuItem onClick={() => handleMenuItemClick(row, 'Arquivar')}>
                     Arquivar
                   </MenuItem>
-                  <MenuItem onClick={() => handleMenuItemClick(row.id, 'Enviar')}>
+                  <MenuItem onClick={() => handleMenuItemClick(row, 'Enviar')}>
                     Enviar
                   </MenuItem>
                 </Menu>
-              
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                labelDisplayedRows={({ from, to, count }) =>
+                  `${from}-${to} de ${count !== -1 ? count : 'tudo'}`
+                }
+                rowsPerPageOptions={[5, 10, 25, { label: 'Tudo', value: -1 }]}
+                colSpan={3}
+                count={data.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                labelRowsPerPage="Processos por página"
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
             </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              labelDisplayedRows={({ from, to, count }) =>
-                `${from}-${to} de ${count !== -1 ? count : 'tudo'}`
-              }
-              rowsPerPageOptions={[5, 10, 25, { label: 'Tudo', value: -1 }]}
-              colSpan={3}
-              count={data.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              labelRowsPerPage="Processos por página"
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </TableContainer>
+          </TableFooter>
+        </Table>
+      </TableContainer>
+      {editar && <Editar onClose={handleCloseDialog} processoJuridico={processo}/>}
+    </>
   );
 }
