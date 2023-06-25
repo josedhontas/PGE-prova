@@ -9,7 +9,8 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
-import axios from 'axios';
+import { useState } from 'react';
+import Alert from '@mui/material/Alert';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -51,9 +52,10 @@ BootstrapDialogTitle.propTypes = {
 
 export default function Editar(props) {
   const { onClose, processoJuridico } = props;
-  const [descricao, setDescricao] = React.useState('');
-  const [descricaoError, setdescricaoError] = React.useState('');
-  console.log(processoJuridico)
+  const [descricao, setDescricao] = useState('');
+  const [descricaoError, setdescricaoError] = useState('');
+  const [enviar, setEnviar] = useState(false);
+  //console.log(processoJuridico)
 
   const handleClose = () => {
     if (onClose) {
@@ -76,6 +78,8 @@ export default function Editar(props) {
       },
       body: JSON.stringify(processoData),
     })
+
+    setEnviar(true);
   }
 
   const handleDescricaoChange = (event) => {
@@ -101,6 +105,23 @@ export default function Editar(props) {
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
          Editar
         </BootstrapDialogTitle>
+        {enviar &&         <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setEnviar(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Processo editado
+        </Alert>}
         <DialogContent dividers>
           <TextField
             label="Número"

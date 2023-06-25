@@ -19,10 +19,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
+import Sucesso from '../sucesso';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
+  const [sucesso, setSucesso] = useState(false);
 
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
@@ -87,6 +89,8 @@ export default function Saida({ usuarioData }) {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
+  const [messagem, setMessagem] = useState('');
+  const [sucesso, setSucesso] = useState(false);
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -131,6 +135,8 @@ export default function Saida({ usuarioData }) {
       getDados();
 
     }
+    setMessagem('Processo desarquivado');
+    setSucesso(true);
   };
 
   useEffect(() => {
@@ -149,6 +155,7 @@ export default function Saida({ usuarioData }) {
 
   //console.log(usuarioData)
   return (
+    <>
     <TableContainer component={Paper} >
       <Table sx={{ minWidth: 400 }} aria-label="personalizado">
         <TableBody>
@@ -199,5 +206,7 @@ export default function Saida({ usuarioData }) {
         </TableFooter>
       </Table>
     </TableContainer>
+    {sucesso && <Sucesso messagem={messagem}></Sucesso>}
+    </>
   );
 }

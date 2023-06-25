@@ -21,6 +21,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
 import Editar from '../editar';
 import Enviar from '../enviar';
+import Sucesso from '../sucesso';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -93,6 +94,8 @@ export default function Entrada({ usuarioData }) {
   const [enviar, setEnviar] = useState(false);
   const [processo, setProcesso] = useState();
   const [enviarDados, setEnviarDados] = useState();
+  const [messagem, setMessagem] = useState('');
+  const [sucesso, setSucesso] = useState(false);
 
 
   const handleCloseDialog = () => {
@@ -138,6 +141,8 @@ export default function Entrada({ usuarioData }) {
         },
         body: JSON.stringify(userData),
       })
+      setMessagem("Processo arquivado");
+      setSucesso(true);
     }
 
 
@@ -150,6 +155,8 @@ export default function Entrada({ usuarioData }) {
         },
         body: JSON.stringify(userData),
       })
+      setMessagem("Processo excluido");
+      setSucesso(true);
     }
 
     if (option === 'Editar') {
@@ -248,7 +255,7 @@ export default function Entrada({ usuarioData }) {
       </TableContainer>
       {editar && <Editar onClose={handleCloseDialog} processoJuridico={processo} />}
       {enviar && <Enviar onClose={handleCloseDialog} processoJuridico={enviarDados} />}
-
+      {sucesso && <Sucesso messagem={messagem}></Sucesso>}
     </>
   );
 }

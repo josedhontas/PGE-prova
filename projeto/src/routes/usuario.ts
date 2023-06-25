@@ -61,7 +61,7 @@ routerUsuario.get('/saida/:id', async(req, res) => {
   const id = parseInt(req.params.id);
   const usuarioCaixas = await usuarioCtrl.listarCaixa(id, 'Saida');
   const processos = await caixaCtrl.listarProcessosJuridicosPorCaixaId(usuarioCaixas)
-  console.log(processos)
+  //console.log(processos)
   res.json(processos)
 }) 
 

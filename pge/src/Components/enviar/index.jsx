@@ -11,6 +11,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -58,7 +59,8 @@ BootstrapDialogTitle.propTypes = {
 export default function Enviar(props) {
   const { onClose, processoJuridico } = props;
   const [options, setOptions] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(null); 
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [enviar, setEnviar] = useState(false);
 
   console.log(processoJuridico)
 
@@ -85,22 +87,24 @@ export default function Enviar(props) {
     if (selectedOption) {
       console.log('Opção selecionada:', selectedOption);
     }
-    
-    const enviar = {
-        idOrigem: processoJuridico.idUsuario,
-        idDestino: selectedOption.id,
-        idProcesso: processoJuridico.idProcesso
-  
-      };
 
-      fetch('http://localhost:8000/usuario/enviar', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(enviar),
-      })
-  
+    const enviar = {
+      idOrigem: processoJuridico.idUsuario,
+      idDestino: selectedOption.id,
+      idProcesso: processoJuridico.idProcesso
+
+    };
+
+    fetch('http://localhost:8000/usuario/enviar', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(enviar),
+    })
+
+    setEnviar(true);
+
   };
 
   const handleOptionChange = (event, value) => {
@@ -117,6 +121,23 @@ export default function Enviar(props) {
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
           Enviar processo
         </BootstrapDialogTitle>
+        {enviar &&         <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setEnviar(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Processo enviado
+        </Alert>}
         <DialogContent dividers>
           <Autocomplete
             id="filter-demo"
@@ -124,7 +145,7 @@ export default function Enviar(props) {
             getOptionLabel={(option) => option.nome}
             filterOptions={filterOptions}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Nome" />}
+            renderInput={(params) => <TextField {...params} label="Destinatário" />}
             noOptionsText="Nenhuma opção encontrada"
             value={selectedOption}
             onChange={handleOptionChange}
