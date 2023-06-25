@@ -38,3 +38,6 @@ npm start
 6. Execute os comandos listados no passo 3 e 4 respectivamente.
 7. Aguarde até que o aplicativo seja compilado e iniciado. Após a conclusão, você poderá acessá-lo no seu navegador em http://localhost:3000.
 
+![Logo](https://drive.google.com/uc?export=view&id=1GGziIrrbY5IHhsBQfB-ZlrM6_8Hd03_y)
+
+
