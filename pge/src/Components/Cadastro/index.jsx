@@ -104,13 +104,18 @@ export default function Cadastro(props) {
       },
       body: JSON.stringify(userData),
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Sucesso:', data);
-        setSucesso(true);
-        //handleClose();
-
-      })
+    .then(response => {
+      if (response.status === 400) {
+        setEmailError('Email em uso')
+        throw new Error('Usuário já cadastrado com esse email');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Sucesso:', data);
+      setSucesso(true);
+      //handleClose();
+    })
       .catch(error => {
         console.error('Falhou:', error);
       });

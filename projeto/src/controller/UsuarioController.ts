@@ -2,10 +2,19 @@ import { getManager } from "typeorm";
 import { Usuario } from "../entity/Usuario";
 
 class UsuarioController {
-  async criarUsuario(usuario: Usuario) {
-    const usuarioSalvo = await getManager().save(usuario);
-    return usuarioSalvo;
+
+async criarUsuario(usuario: Usuario) {
+  const { email } = usuario;
+
+  const usuarioExistente = await getManager().findOne(Usuario, { email });
+
+  if (usuarioExistente) {
+    throw new Error('Já existe um usuário cadastrado com esse email.');
   }
+
+  const usuarioSalvo = await getManager().save(usuario);
+  return usuarioSalvo;
+}  
 
   async listarUsuarios(id: number) {
     const usuarios = await getManager().find(Usuario);
@@ -47,14 +56,12 @@ class UsuarioController {
   }
 
   async listarCaixa(usuarioId: number, nome: string) {
-    //console.log(usuarioId)
     const usuario = await getManager().findOne(Usuario, usuarioId, { relations: ["caixas"] });
     if (!usuario) {
       throw new Error(`Usuario com o ID ${usuarioId} não encontrada.`);
     }
 
     const caixaNome = usuario.caixas.find((caixa) => caixa.nome === nome)
-    //console.log(usuario)
 
     return caixaNome.id;
   }

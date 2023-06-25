@@ -17,15 +17,23 @@ routerUsuario.get('/:id', async (req, res) =>{
   res.json(usuarios);
 })
 
-routerUsuario.post('/', async (req, res) =>{
-    const {email, nome, senha, cargo} = req.body;
-    const usuario = new Usuario(email, nome, senha, cargo);
-    const usuarioSalvo = await usuarioCtrl.criarUsuario(usuario)
-    const caixaEntrada = await caixaCtrl.criarCaixa(new Caixa("Entrada", usuario))
-    const caixaSaida = await caixaCtrl.criarCaixa(new Caixa("Saida", usuario))
-    const caixaArquivada = await caixaCtrl.criarCaixa(new Caixa("Arquivada", usuario))
+routerUsuario.post('/', async (req, res) => {
+  const { email, nome, senha, cargo } = req.body;
+  const usuario = new Usuario(email, nome, senha, cargo);
+
+  try {
+    const usuarioSalvo = await usuarioCtrl.criarUsuario(usuario);
+    if (!usuarioSalvo) {
+      const caixaEntrada = await caixaCtrl.criarCaixa(new Caixa("Entrada", usuario));
+      const caixaSaida = await caixaCtrl.criarCaixa(new Caixa("Saida", usuario));
+      const caixaArquivada = await caixaCtrl.criarCaixa(new Caixa("Arquivada", usuario));
+    }
+
     res.json(usuarioSalvo);
-})
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
 
 // autenticar o usuario 
 
