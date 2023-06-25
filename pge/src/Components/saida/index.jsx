@@ -131,7 +131,7 @@ export default function Saida({ usuarioData }) {
             <TableRow
               key={row.id}
               onClick={() => handleClick(row)}
-              style={{ cursor: 'pointer' }} // Adiciona estilo do cursor
+              style={{ cursor: 'pointer' }} 
             >
               <TableCell component="th" scope="row">
                 {row.numero}

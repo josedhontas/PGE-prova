@@ -20,11 +20,11 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
 import Sucesso from '../sucesso';
+import Processo from '../processo';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
-  const [sucesso, setSucesso] = useState(false);
 
   const handleFirstPageButtonClick = (event) => {
     onPageChange(event, 0);
@@ -91,6 +91,17 @@ export default function Saida({ usuarioData }) {
   const [selectedRowId, setSelectedRowId] = useState(null);
   const [messagem, setMessagem] = useState('');
   const [sucesso, setSucesso] = useState(false);
+  const [processo, setProcesso] = useState();
+  const [ver, setVer] = useState(false)
+
+  const handleClick = (row) => {
+    setProcesso(row);
+    setVer(true);
+  };
+
+  const handleCloseDialog = () => {
+    setVer(false);
+  };
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -160,11 +171,12 @@ export default function Saida({ usuarioData }) {
       <Table sx={{ minWidth: 400 }} aria-label="personalizado">
         <TableBody>
           {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
+            <TableRow key={row.id}                 style={{ cursor: 'pointer' }}
+            >
+              <TableCell component="th" scope="row" onClick={() => handleClick(row)}>
                 {row.numero}
               </TableCell>
-              <TableCell style={{ width: 160 }} align="right">
+              <TableCell style={{ width: 160 }} align="right" onClick={() => handleClick(row)}>
                 {row.descricao}
               </TableCell>
               <TableCell>
@@ -206,6 +218,7 @@ export default function Saida({ usuarioData }) {
         </TableFooter>
       </Table>
     </TableContainer>
+    {ver && <Processo onClose={handleCloseDialog} processoJuridico={processo}></Processo>}
     {sucesso && <Sucesso messagem={messagem}></Sucesso>}
     </>
   );

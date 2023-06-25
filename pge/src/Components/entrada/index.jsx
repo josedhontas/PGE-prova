@@ -22,6 +22,7 @@ import axios from 'axios';
 import Editar from '../editar';
 import Enviar from '../enviar';
 import Sucesso from '../sucesso';
+import Processo from '../processo';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -96,11 +97,17 @@ export default function Entrada({ usuarioData }) {
   const [enviarDados, setEnviarDados] = useState();
   const [messagem, setMessagem] = useState('');
   const [sucesso, setSucesso] = useState(false);
+  const [ver, setVer] = useState(false)
 
+  const handleClick = (row) => {
+    setProcesso(row);
+    setVer(true);
+  };
 
   const handleCloseDialog = () => {
     setEditar(false);
-    setEnviar(false)
+    setEnviar(false);
+    setVer(false);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -115,6 +122,7 @@ export default function Entrada({ usuarioData }) {
   const handleMenuOpen = (event, rowId) => {
     setAnchorEl(event.currentTarget);
     setSelectedRowId(rowId);
+    setVer(false);
   };
 
   const handleMenuClose = () => {
@@ -195,11 +203,14 @@ export default function Entrada({ usuarioData }) {
         <Table sx={{ minWidth: 400 }} aria-label="personalizado">
           <TableBody>
             {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
+              <TableRow
+                key={row.id}
+                style={{ cursor: 'pointer' }}
+              >
+                <TableCell component="th" scope="row" onClick={() => handleClick(row)}>
                   {row.numero}
                 </TableCell>
-                <TableCell style={{ width: 160 }} align="right">
+                <TableCell style={{ width: 160 }} align="right" onClick={() => handleClick(row)}>
                   {row.descricao}
                 </TableCell>
                 <TableCell>
@@ -256,6 +267,7 @@ export default function Entrada({ usuarioData }) {
       {editar && <Editar onClose={handleCloseDialog} processoJuridico={processo} />}
       {enviar && <Enviar onClose={handleCloseDialog} processoJuridico={enviarDados} />}
       {sucesso && <Sucesso messagem={messagem}></Sucesso>}
+      {ver && <Processo onClose={handleCloseDialog} processoJuridico={processo}></Processo>}
     </>
   );
 }
