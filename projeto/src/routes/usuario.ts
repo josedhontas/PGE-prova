@@ -11,8 +11,9 @@ const usuarioCtrl = new UsuarioController();
 const caixaCtrl = new CaixaController();
 
 
-routerUsuario.get('/', async (req, res) =>{
-  const usuarios = await usuarioCtrl.listarUsuarios();
+routerUsuario.get('/:id', async (req, res) =>{
+  const id = parseInt(req.params.id);
+  const usuarios = await usuarioCtrl.listarUsuarios(id);
   res.json(usuarios);
 })
 
@@ -41,7 +42,7 @@ routerUsuario.post('/autenticar', async (req, res) => {
 
 
 routerUsuario.get('/:id', async(req, res) => {
-    const {id} = req.body;
+    const id = parseInt(req.params.id);
     const usuarioCaixas = await usuarioCtrl.listarCaixas(id);
     res.json(usuarioCaixas)
 }) 
@@ -109,9 +110,9 @@ routerUsuario.put('/enviar', async(req, res) => {
 // excluir um processo
 
 routerUsuario.delete('/excluir', async(req, res) => {
-  const {idProcesso, idUsario} = req.body;
-  const idCaixa = await usuarioCtrl.listarCaixa(idUsario, 'Entrada');
-  const excluido = await caixaCtrl.removerProcessoJuridicoDeCaixa(idProcesso, idCaixa);
+  const {idProcesso, idUsuario} = req.body;
+  const idCaixa = await usuarioCtrl.listarCaixa(idUsuario, 'Entrada');
+  const excluido = await caixaCtrl.removerProcessoJuridicoDeCaixa(parseInt(idProcesso), idCaixa);
   res.json(excluido);
 })
 

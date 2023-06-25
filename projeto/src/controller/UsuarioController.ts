@@ -7,10 +7,12 @@ class UsuarioController {
     return usuarioSalvo;
   }
 
-  async listarUsuarios() {
+  async listarUsuarios(id: number) {
     const usuarios = await getManager().find(Usuario);
-    return usuarios;
+    const usuariosSemId = usuarios.filter(usuario => usuario.id !== id);
+    return usuariosSemId;
   }
+  
 
   async obterUsuarioPorId(id: number) {
     const usuario = await getManager().findOne(Usuario, id);
@@ -52,7 +54,7 @@ class UsuarioController {
     }
 
     const caixaNome = usuario.caixas.find((caixa) => caixa.nome === nome)
-    console.log(usuario)
+    //console.log(usuario)
 
     return caixaNome.id;
   }
