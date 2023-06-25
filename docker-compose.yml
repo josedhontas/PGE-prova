@@ -4,14 +4,14 @@ services:
     container_name: back
     restart: always
     build:
-      context: ./projeto
+      context: ./back
     ports:
       - "8000:8000"
   app:
     container_name: front
     restart: always
     build:
-      context: ./projeto
+      context: ./front
     ports:
       - "3000:3000"
     depends_on:
