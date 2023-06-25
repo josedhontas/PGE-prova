@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
+import Falha from '../falha';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -61,6 +62,7 @@ export default function Enviar(props) {
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
   const [enviar, setEnviar] = useState(false);
+  const [falha, setFalha] = useState(false);
 
   console.log(processoJuridico)
 
@@ -84,8 +86,8 @@ export default function Enviar(props) {
   }, []);
 
   const handleSaveChanges = () => {
-    if (selectedOption) {
-      console.log('Opção selecionada:', selectedOption);
+    if (selectedOption === null) {
+      return 
     }
 
     const enviar = {
@@ -101,10 +103,21 @@ export default function Enviar(props) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(enviar),
+    }).then(response => {
+      if (response.status === 401) {
+        throw new Error('Usuário já cadastrado com esse email');
+      }
+      return response.json();
     })
-
-    setEnviar(true);
-
+      .then(data => {
+        console.log('Sucesso:', data);
+        setEnviar(true);
+      })
+      .catch(error => {
+        console.error('Falhou:', error);
+        setEnviar(false);
+        setFalha(true);
+      });
   };
 
   const handleOptionChange = (event, value) => {
@@ -121,7 +134,8 @@ export default function Enviar(props) {
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
           Enviar processo
         </BootstrapDialogTitle>
-        {enviar &&         <Alert
+        {falha && <Falha messagem={"Processo já enviado"}></Falha>}
+        {enviar && <Alert
           action={
             <IconButton
               aria-label="close"

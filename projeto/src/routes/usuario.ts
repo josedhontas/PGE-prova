@@ -106,12 +106,16 @@ routerUsuario.put('/desarquivar', async(req, res) => {
 
 routerUsuario.put('/enviar', async(req, res) => {
   const {idOrigem, idDestino, idProcesso} = req.body;
+  try {
   const entrada = await usuarioCtrl.listarCaixa(idOrigem, 'Entrada');
   const saidaOrigem = await usuarioCtrl.listarCaixa(idOrigem, 'Saida');
   const mover = await caixaCtrl.moverConteudoEntreCaixas(entrada, saidaOrigem, idProcesso);
   const entradaDestino = await usuarioCtrl.listarCaixa(idDestino, 'Entrada');
   const resu = await caixaCtrl.adicionarProcessoJuridicoEmCaixa(entradaDestino, idProcesso);
   res.json(resu);
+  }catch (error) {
+    res.status(401).json({ error: error.message });
+  }
 });
 
 
