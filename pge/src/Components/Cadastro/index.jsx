@@ -238,7 +238,7 @@ export default function Cadastro(props) {
           </RadioGroup>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleSaveChanges}>
+          <Button autoFocus onClick={handleSaveChanges} color="inherit" sx={{ color: 'green' }} variant="outlined">
             Salvar
           </Button>
         </DialogActions>

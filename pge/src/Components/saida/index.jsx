@@ -15,7 +15,7 @@ import FirstPageIcon from '@mui/icons-material/FirstPage';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
-
+import Processo from '../processo';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -79,10 +79,16 @@ TablePaginationActions.propTypes = {
 };
 
 export default function Saida({ usuarioData }) {
-  console.log(usuarioData.id)
+  console.log(usuarioData.id);
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [processo, setProcesso] = useState();
+  const [ver, setVer] = useState(false)
+
+  const handleCloseDialog = () => {
+    setVer(false);
+  };
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -96,20 +102,25 @@ export default function Saida({ usuarioData }) {
     setPage(0);
   };
 
+  const handleClick = (row) => {
+    setProcesso(row);
+    setVer(true);
+  };
+
   useEffect(() => {
     fetch(`http://localhost:8000/usuario/saida/${usuarioData.id}`)
-      .then(response => response.json())
-      .then(apiData => {
-        setData(apiData); // Atualiza o estado com os dados da API
+      .then((response) => response.json())
+      .then((apiData) => {
+        setData(apiData); 
         console.log(apiData);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Erro ao obter os dados da API:', error);
       });
   }, []);
 
-
   return (
+    <>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label="personalizado">
         <TableBody>
@@ -117,7 +128,11 @@ export default function Saida({ usuarioData }) {
             ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : data
           ).map((row) => (
-            <TableRow key={row.id}>
+            <TableRow
+              key={row.id}
+              onClick={() => handleClick(row)}
+              style={{ cursor: 'pointer' }} // Adiciona estilo do cursor
+            >
               <TableCell component="th" scope="row">
                 {row.numero}
               </TableCell>
@@ -126,7 +141,6 @@ export default function Saida({ usuarioData }) {
               </TableCell>
             </TableRow>
           ))}
-
 
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
@@ -154,5 +168,8 @@ export default function Saida({ usuarioData }) {
         </TableFooter>
       </Table>
     </TableContainer>
+    {ver && <Processo processoJuridico={processo} onClose={handleCloseDialog}></Processo>}
+    </>
   );
+  
 }
