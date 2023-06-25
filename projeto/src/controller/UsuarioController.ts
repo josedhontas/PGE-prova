@@ -45,7 +45,7 @@ class UsuarioController {
   }
 
   async listarCaixa(usuarioId: number, nome: string) {
-    console.log(usuarioId)
+    //console.log(usuarioId)
     const usuario = await getManager().findOne(Usuario, usuarioId, { relations: ["caixas"] });
     if (!usuario) {
       throw new Error(`Usuario com o ID ${usuarioId} não encontrada.`);

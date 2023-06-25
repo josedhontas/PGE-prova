@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
+import Alert from '@mui/material/Alert';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -56,6 +57,8 @@ export default function Login(props) {
   const [password, setPassword] = React.useState('');
   const [emailError, setEmailError] = React.useState('');
   const [passwordError, setPasswordError] = React.useState('');
+  const [falha, setFalha] = React.useState(false);
+
 
   const handleClose = () => {
     if (onClose) {
@@ -86,8 +89,9 @@ export default function Login(props) {
       if (response.ok) {
         return response.json();
       } else {
-        setEmailError('Email ou senha incorreta');
-        setPasswordError('Email ou senha incorreta');
+        setEmailError(' ');
+        setPasswordError(' ');
+        setFalha(true);
         throw new Error('Falha na autenticação');
       }
     })
@@ -140,6 +144,23 @@ export default function Login(props) {
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
          Login
         </BootstrapDialogTitle>
+        {falha &&         <Alert severity="error"
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setFalha(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Email ou senha incorreta
+        </Alert>}
         <DialogContent dividers>
           <TextField
             label="Email"

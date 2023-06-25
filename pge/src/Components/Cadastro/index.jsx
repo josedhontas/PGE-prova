@@ -12,6 +12,7 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
+import Alert from '@mui/material/Alert';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -60,6 +61,7 @@ export default function Cadastro(props) {
   const [emailError, setEmailError] = React.useState('');
   const [passwordError, setPasswordError] = React.useState('');
   const [nomeError, setNomeError] = React.useState('');
+  const [sucesso, setSucesso] = React.useState(false);
 
   const handleClose = () => {
     if (onClose) {
@@ -104,11 +106,13 @@ export default function Cadastro(props) {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Registration successful:', data);
-        handleClose();
+        console.log('Sucesso:', data);
+        setSucesso(true);
+        //handleClose();
+
       })
       .catch(error => {
-        console.error('Registration failed:', error);
+        console.error('Falhou:', error);
       });
   };
 
@@ -166,6 +170,23 @@ export default function Cadastro(props) {
         <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
           Cadastro
         </BootstrapDialogTitle>
+        {sucesso &&         <Alert
+          action={
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              size="small"
+              onClick={() => {
+                setSucesso(false);
+              }}
+            >
+              <CloseIcon fontSize="inherit" />
+            </IconButton>
+          }
+          sx={{ mb: 2 }}
+        >
+          Usuário cadastrado com sucesso!
+        </Alert>}
         <DialogContent dividers>
           <TextField
             label="Nome"
