@@ -21,7 +21,7 @@ Para executar este projeto, certifique-se de ter as seguintes ferramentas instal
 2. Navegue até o diretório raiz do projeto no terminal.
 3. Execute o seguinte comando para construir e iniciar os contêineres Docker para o projeto:
 ```shell script
-> docker-compose up -d
+docker-compose up -d
 ```
 4. Aguarde até que todos os contêineres sejam criados e iniciados. Após a conclusão, você poderá acessar o aplicativo no seu navegador em http://localhost:3000.
 
@@ -31,11 +31,11 @@ Para executar este projeto, certifique-se de ter as seguintes ferramentas instal
 2. Navegue até o diretório "back" do projeto no terminal.
 3. Execute o seguinte comando para instalar as dependências do projeto:
 ```shell script
-> npm install
+npm install
 ```
 4. Após a conclusão da instalação das dependências, execute o seguinte comando para iniciar o aplicativo:
 ```shell script
-> npm start
+npm start
 ```
 5. Navegue até o diretório "front" do projeto no terminal.
 6. Execute os comandos listados no passo 3 e 4 respectivamente.
