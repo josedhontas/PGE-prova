@@ -1,8 +1,5 @@
 # PGE-prova
 
-Desenvolvido por:
-- José Dhonatas Alves Sales
-
 ## Sobre o projeto
 Este projeto, denominado PGEmail, foi desenvolvido por José Dhonatas Alves Sales. Ele consiste em uma aplicação web para gerenciamento de processos jurídicos.
 
