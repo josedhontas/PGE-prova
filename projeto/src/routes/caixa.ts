@@ -15,3 +15,12 @@ routerCaixa.get('/', async(req, res) => {
     res.json(caixas)
 }) 
 
+routerCaixa.put('/arquivar', async (req, res) => {
+    const { origemId, destinoId, processoId } = req.body;
+    try {
+      const caixaDestino = await caixaCtrl.moverConteudoEntreCaixas(origemId, destinoId, processoId);
+      res.json(caixaDestino);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  });
