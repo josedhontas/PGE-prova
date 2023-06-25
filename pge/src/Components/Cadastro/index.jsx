@@ -208,7 +208,7 @@ export default function Cadastro(props) {
             }}
           >
             <FormControlLabel value="true" control={<Radio />} label="Procurador" />
-            <FormControlLabel value="false" control={<Radio />} label="Acessor" />
+            <FormControlLabel value="false" control={<Radio />} label="Assessor" />
           </RadioGroup>
         </DialogContent>
         <DialogActions>

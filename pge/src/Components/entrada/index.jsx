@@ -20,6 +20,7 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
 import Editar from '../editar';
+import Enviar from '../enviar';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -89,11 +90,13 @@ export default function Entrada({ usuarioData }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedRowId, setSelectedRowId] = useState(null);
   const [editar, setEditar] = useState(false);
-  const [processo, setProcesso] = useState()
+  const [enviar, setEnviar] = useState(false);
+  const [processo, setProcesso] = useState();
 
   
   const handleCloseDialog = () => {
     setEditar(false);
+    setEnviar(false);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -150,6 +153,13 @@ export default function Entrada({ usuarioData }) {
     if (option === 'Editar') {
       setEditar(true);
       setProcesso(row)
+    }
+
+    if(option === 'Enviar'){
+      setEnviar(true)
+      setProcesso(row)
+      console.log("ta funcionando")
+
     }
 
     getDados();
@@ -234,6 +244,8 @@ export default function Entrada({ usuarioData }) {
         </Table>
       </TableContainer>
       {editar && <Editar onClose={handleCloseDialog} processoJuridico={processo}/>}
+      {enviar && <Enviar onClose={handleCloseDialog} processoJuridico={processo}/>}
+
     </>
   );
 }

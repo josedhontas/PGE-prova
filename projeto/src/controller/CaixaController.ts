@@ -1,5 +1,6 @@
 import { getManager } from "typeorm";
 import { Caixa } from "../entity/Caixa";
+import { ProcessoJuridico } from "../entity/ProcessoJuridico";
 
 class CaixaController {
   async criarCaixa(caixa: Caixa) {
@@ -64,6 +65,27 @@ class CaixaController {
   
     return caixa;
   }
+
+
+  async adicionarProcessoJuridicoEmCaixa(caixaId: number, processoJuridicoId: number) {
+    const caixa = await getManager().findOne(Caixa, caixaId, { relations: ["processosjuridicos"] });
+    const processoJuridico = await getManager().findOne(ProcessoJuridico, processoJuridicoId);
+  
+    if (!caixa) {
+      throw new Error(`Caixa com o ID ${caixaId} não encontrada.`);
+    }
+  
+    if (!processoJuridico) {
+      throw new Error(`Processo Jurídico com o ID ${processoJuridicoId} não encontrado.`);
+    }
+  
+    caixa.processosjuridicos.push(processoJuridico);
+  
+    await getManager().save(caixa);
+  
+    return caixa;
+  }
+  
   
 }
 
