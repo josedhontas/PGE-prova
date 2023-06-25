@@ -1,0 +1,18 @@
+version: '3'
+services:
+  api:
+    container_name: back
+    restart: always
+    build:
+      context: ./projeto
+    ports:
+      - "8000:8000"
+  app:
+    container_name: front
+    restart: always
+    build:
+      context: ./projeto
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
