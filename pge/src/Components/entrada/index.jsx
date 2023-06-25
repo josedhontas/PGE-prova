@@ -92,11 +92,12 @@ export default function Entrada({ usuarioData }) {
   const [editar, setEditar] = useState(false);
   const [enviar, setEnviar] = useState(false);
   const [processo, setProcesso] = useState();
+  const [enviarDados, setEnviarDados] = useState();
 
-  
+
   const handleCloseDialog = () => {
     setEditar(false);
-    setEnviar(false);
+    setEnviar(false)
   };
 
   const handleChangePage = (event, newPage) => {
@@ -121,6 +122,7 @@ export default function Entrada({ usuarioData }) {
   const handleMenuItemClick = (row, option) => {
     //console.log(row)
     handleMenuClose();
+
     const userData = {
       idUsuario: usuarioData.id,
       idProcesso: row.id
@@ -155,8 +157,9 @@ export default function Entrada({ usuarioData }) {
       setProcesso(row)
     }
 
-    if(option === 'Enviar'){
+    if (option === 'Enviar') {
       setEnviar(true)
+      setEnviarDados(userData)
       setProcesso(row)
       console.log("ta funcionando")
 
@@ -243,8 +246,8 @@ export default function Entrada({ usuarioData }) {
           </TableFooter>
         </Table>
       </TableContainer>
-      {editar && <Editar onClose={handleCloseDialog} processoJuridico={processo}/>}
-      {enviar && <Enviar onClose={handleCloseDialog} processoJuridico={processo}/>}
+      {editar && <Editar onClose={handleCloseDialog} processoJuridico={processo} />}
+      {enviar && <Enviar onClose={handleCloseDialog} processoJuridico={enviarDados} />}
 
     </>
   );

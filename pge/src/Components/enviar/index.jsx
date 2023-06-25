@@ -57,10 +57,10 @@ BootstrapDialogTitle.propTypes = {
 
 export default function Enviar(props) {
   const { onClose, processoJuridico } = props;
-  const [descricao, setDescricao] = useState('');
-  const [descricaoError, setDescricaoError] = useState('');
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null); 
+
+  console.log(processoJuridico)
 
   const handleClose = () => {
     if (onClose) {
@@ -84,9 +84,23 @@ export default function Enviar(props) {
   const handleSaveChanges = () => {
     if (selectedOption) {
       console.log('Opção selecionada:', selectedOption);
-    } else {
-      console.log('Nenhuma opção selecionada.');
     }
+    
+    const enviar = {
+        idOrigem: processoJuridico.idUsuario,
+        idDestino: selectedOption.id,
+        idProcesso: processoJuridico.idProcesso
+  
+      };
+
+      fetch('http://localhost:8000/usuario/enviar', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(enviar),
+      })
+  
   };
 
   const handleOptionChange = (event, value) => {
