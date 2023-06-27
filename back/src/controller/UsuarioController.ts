@@ -1,20 +1,32 @@
 import { getManager } from "typeorm";
 import { Usuario } from "../entity/Usuario";
+import { Caixa } from "../entity/Caixa";
 
 class UsuarioController {
 
-async criarUsuario(usuario: Usuario) {
-  const { email } = usuario;
-
-  const usuarioExistente = await getManager().findOne(Usuario, { email });
-
-  if (usuarioExistente) {
-    throw new Error('Já existe um usuário cadastrado com esse email.');
+  async criarUsuario(usuario: Usuario) {
+    const { email } = usuario;
+  
+    const usuarioExistente = await getManager().findOne(Usuario, { email });
+  
+    if (usuarioExistente) {
+      throw new Error('Já existe um usuário cadastrado com esse email.');
+    }
+  
+    const usuarioSalvo = await getManager().save(usuario);
+  
+    // Criar as caixas para o novo usuário
+    const caixaEntrada = new Caixa("Entrada", usuarioSalvo);
+    const caixaSaida = new Caixa("Saída", usuarioSalvo);
+    const caixaArquivada = new Caixa("Arquivada", usuarioSalvo);
+  
+    await getManager().save(caixaEntrada);
+    await getManager().save(caixaSaida);
+    await getManager().save(caixaArquivada);
+  
+    return usuarioSalvo;
   }
-
-  const usuarioSalvo = await getManager().save(usuario);
-  return usuarioSalvo;
-}  
+  
 
   async listarUsuarios(id: number) {
     const usuarios = await getManager().find(Usuario);

@@ -24,9 +24,6 @@ routerUsuario.post('/', async (req, res) => {
   try {
     const usuarioSalvo = await usuarioCtrl.criarUsuario(usuario);
     if (!usuarioSalvo) {
-      const caixaEntrada = await caixaCtrl.criarCaixa(new Caixa("Entrada", usuario));
-      const caixaSaida = await caixaCtrl.criarCaixa(new Caixa("Saida", usuario));
-      const caixaArquivada = await caixaCtrl.criarCaixa(new Caixa("Arquivada", usuario));
     }
 
     res.json(usuarioSalvo);

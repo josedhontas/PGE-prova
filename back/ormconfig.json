@@ -4,7 +4,7 @@
    "port": 3306,
    "username": "pge",
    "password": "pgemaster",
-   "database": "teste",
+   "database": "dados",
    "synchronize": true,
    "logging": false,
    "entities": [
