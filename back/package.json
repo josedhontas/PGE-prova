@@ -23,6 +23,11 @@
    "scripts": {
       "dev": "nodemon --exec ts-node src/server.ts",
       "start": "ts-node src/server.ts",
+      "production": "node ./build/server.js",
       "typeorm": "typeorm-ts-node-commonjs"
-   }
+   },
+   
+   "engines": {
+      "node": "16.x"
+    }
 }
