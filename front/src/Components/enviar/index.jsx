@@ -105,7 +105,7 @@ export default function Enviar(props) {
       body: JSON.stringify(enviar),
     }).then(response => {
       if (response.status === 401) {
-        throw new Error('Usuário já cadastrado com esse email');
+        throw new Error('Ja enviado');
       }
       return response.json();
     })

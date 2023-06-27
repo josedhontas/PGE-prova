@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { Usuario } from "../entity/Usuario";
-import { Caixa } from "../entity/Caixa";
 import CaixaController from "../controller/CaixaController";
 import UsuarioController from "../controller/UsuarioController";
 

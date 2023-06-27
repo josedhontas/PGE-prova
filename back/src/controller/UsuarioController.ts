@@ -17,7 +17,7 @@ class UsuarioController {
   
     // Criar as caixas para o novo usuário
     const caixaEntrada = new Caixa("Entrada", usuarioSalvo);
-    const caixaSaida = new Caixa("Saída", usuarioSalvo);
+    const caixaSaida = new Caixa("Saida", usuarioSalvo);
     const caixaArquivada = new Caixa("Arquivada", usuarioSalvo);
   
     await getManager().save(caixaEntrada);
@@ -74,7 +74,6 @@ class UsuarioController {
     }
 
     const caixaNome = usuario.caixas.find((caixa) => caixa.nome === nome)
-
     return caixaNome.id;
   }
 

@@ -79,7 +79,7 @@ TablePaginationActions.propTypes = {
 };
 
 export default function Saida({ usuarioData }) {
-  console.log(usuarioData.id);
+  //console.log(usuarioData.id);
   const [data, setData] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -112,7 +112,7 @@ export default function Saida({ usuarioData }) {
       .then((response) => response.json())
       .then((apiData) => {
         setData(apiData); 
-        console.log(apiData);
+        //console.log(apiData);
       })
       .catch((error) => {
         console.error('Erro ao obter os dados da API:', error);
