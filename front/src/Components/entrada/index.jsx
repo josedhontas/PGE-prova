@@ -250,7 +250,7 @@ export default function Entrada({ usuarioData }) {
                 labelDisplayedRows={({ from, to, count }) =>
                   `${from}-${to} de ${count !== -1 ? count : 'tudo'}`
                 }
-                rowsPerPageOptions={[5, 10, 25, { label: 'Tudo', value: -1 }]}
+                rowsPerPageOptions={[5, 10, 25]}
                 colSpan={3}
                 count={data.length}
                 rowsPerPage={rowsPerPage}
