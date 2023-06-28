@@ -16,14 +16,15 @@ Este projeto, denominado PGEmail, foi desenvolvido por José Dhonatas Alves Sale
 ## Link do projeto
 O projeto está disponível online no seguinte endereço: [PGEmail](https://pge.josedhonatas.ninja)
 
-
-
 ## Requisitos
 Para executar este projeto, certifique-se de ter as seguintes ferramentas instaladas em seu ambiente de desenvolvimento:
 
 - Docker (opcional)
 - Node.js
 - npm (Node Package Manager)
+
+## Configuração do Banco de Dados
+As credenciais para o banco de dados, contendo dados fictícios, podem ser encontradas no arquivo *ormconfig.json* localizado na pasta *back* do projeto.
 
 ## Como executar
 
