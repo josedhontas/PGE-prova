@@ -136,7 +136,7 @@ export default function Saida({ usuarioData }) {
 
       };
 
-      fetch('http://localhost:8000/usuario/desarquivar', {
+      fetch('http://localhost:5000/usuario/desarquivar', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -158,7 +158,7 @@ export default function Saida({ usuarioData }) {
 
   const getDados = () => {
     axios
-      .get(`http://localhost:8000/usuario/arquivada/${usuarioData.id}`)
+      .get(`http://localhost:5000/usuario/arquivada/${usuarioData.id}`)
       .then((res) => setData(res.data))
       .catch((err) => console.log(err))
   }

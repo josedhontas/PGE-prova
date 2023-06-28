@@ -108,7 +108,7 @@ export default function Saida({ usuarioData }) {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:8000/usuario/saida/${usuarioData.id}`)
+    fetch(`http://localhost:5000/usuario/saida/${usuarioData.id}`)
       .then((response) => response.json())
       .then((apiData) => {
         setData(apiData); 

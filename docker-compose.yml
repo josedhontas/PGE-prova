@@ -6,7 +6,7 @@ services:
     build:
       context: ./back
     ports:
-      - "8000:8000"
+      - "5000:5000"
   app:
     container_name: front
     restart: always

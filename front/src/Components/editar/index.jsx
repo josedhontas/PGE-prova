@@ -71,7 +71,7 @@ export default function Editar(props) {
     };
     console.log(processoData)
 
-    fetch(`http://localhost:8000/juridico/${processoJuridico.id}`, {
+    fetch(`http://localhost:5000/juridico/${processoJuridico.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

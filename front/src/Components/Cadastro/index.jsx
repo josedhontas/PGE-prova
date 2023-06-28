@@ -97,7 +97,7 @@ export default function Cadastro(props) {
       cargo: cargo
     };
 
-    fetch('http://localhost:8000/usuario/', {
+    fetch('http://localhost:5000/usuario/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

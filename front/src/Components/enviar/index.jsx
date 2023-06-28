@@ -75,7 +75,7 @@ export default function Enviar(props) {
   useEffect(() => {
     const fetchOptions = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/usuario/${processoJuridico.idUsuario}`);
+        const response = await axios.get(`http://localhost:5000/usuario/${processoJuridico.idUsuario}`);
         setOptions(response.data);
       } catch (error) {
         console.error('Error fetching options:', error);
@@ -97,7 +97,7 @@ export default function Enviar(props) {
 
     };
 
-    fetch('http://localhost:8000/usuario/enviar', {
+    fetch('http://localhost:5000/usuario/enviar', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

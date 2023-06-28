@@ -142,7 +142,7 @@ export default function Entrada({ usuarioData }) {
 
     if (option === 'Arquivar') {
 
-      fetch('http://localhost:8000/usuario/arquivar', {
+      fetch('http://localhost:5000/usuario/arquivar', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -156,7 +156,7 @@ export default function Entrada({ usuarioData }) {
 
     if (option === 'Excluir') {
 
-      fetch('http://localhost:8000/usuario/excluir', {
+      fetch('http://localhost:5000/usuario/excluir', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ export default function Entrada({ usuarioData }) {
 
   const getDados = () => {
     axios
-      .get(`http://localhost:8000/usuario/entrada/${usuarioData.id}`)
+      .get(`http://localhost:5000/usuario/entrada/${usuarioData.id}`)
       .then((res) => setData(res.data))
       .catch((err) => console.log(err))
   }
