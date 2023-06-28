@@ -10,9 +10,8 @@ Este projeto, denominado PGEmail, foi desenvolvido por José Dhonatas Alves Sale
 - Back-end:
   - Node.js (TypeScript)
   - Express
-  - Docker (para facilitar a execução e implantação do projeto)
-  - MySQL
-
+- Banco de dados:
+  - MySQL  
 
 ## Link do projeto
 O projeto está disponível online no seguinte endereço: [PGEmail](https://pge.josedhonatas.ninja)
