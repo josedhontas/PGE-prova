@@ -1,6 +1,6 @@
 import {app} from './app';
 
-const porta = 8000;
+const porta = 5000;
 
 const server = app.listen(porta, () => console.log('App iniciado na porta', porta));
 
