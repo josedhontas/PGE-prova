@@ -24,7 +24,7 @@ Para executar este projeto, certifique-se de ter as seguintes ferramentas instal
 - npm (Node Package Manager)
 
 ## Configuração do Banco de Dados
-As credenciais para o banco de dados, contendo dados fictícios, podem ser encontradas no arquivo *ormconfig.json* localizado na pasta *back* do projeto.
+As credenciais para o banco de dados, contendo dados fictícios, podem ser encontradas no arquivo **ormconfig.json** localizado na pasta **back** do projeto.
 
 ## Como executar
 
