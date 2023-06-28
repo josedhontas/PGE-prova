@@ -3,14 +3,15 @@
 ## Sobre o projeto
 Este projeto, denominado PGEmail, foi desenvolvido por José Dhonatas Alves Sales. Ele consiste em uma aplicação web para gerenciamento de processos jurídicos.
 
-## O projeto utiliza as seguintes tecnologias:
+## Tecnologias:
 - Front-end:
-  - React
+  - React (Javascript)
   - Material ui
 - Back-end:
-  - Node.js
+  - Node.js (TypeScript)
   - Express
   - Docker (para facilitar a execução e implantação do projeto)
+  - MySQL
 
 
 ## Link do projeto
