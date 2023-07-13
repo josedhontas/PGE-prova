@@ -26,6 +26,11 @@ Para executar este projeto, certifique-se de ter as seguintes ferramentas instal
 ## Configuração do Banco de Dados
 As credenciais para o banco de dados, contendo dados fictícios, podem ser encontradas no arquivo **ormconfig.json** localizado na pasta **back** do projeto.
 
+| Email  | Senha | Cargo
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
+
 ## Como executar
 
 ### Opção 1: Usando Docker
